@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "431284887307",
+    "firebase_url": "https://simap-b7729.firebaseio.com",
+    "project_id": "simap-b7729",
+    "storage_bucket": "simap-b7729.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:431284887307:android:a3f69d3cab166506",
+        "android_client_info": {
+          "package_name": "com.sip.warehouse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "431284887307-9ksprf971r852ugpslh8mrmj0do20s01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApwNxPFrB9BF-h-7U7FvjpoMaKSVPTj2M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
