@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#795548</color>
-    <color name="colorPrimaryDark">#5d4037</color>
+    <color name="colorPrimary">#00b8d4</color>
+    <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#00b8d4</color>
     <color name="backgroundcolor">#fcfcfc</color>
     <color name="lightgray">#ededed</color>
@@ -32,4 +32,6 @@
     <color name="colorAquaDark">#3BAFDA</color>
     <color name="colorPinkRose">#EC87C0</color>
     <color name="colorPinkRoseDark">#D770AD</color>
+    <color name="colorNavigationIcon">#dae9f6</color>
+    <color name="colorNavigationText">#ffffff</color>
 </resources>
