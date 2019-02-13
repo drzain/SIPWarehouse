@@ -11,56 +11,67 @@
     app:cardElevation="6dp"
     android:foreground="?attr/selectableItemBackground">
 
-    <RelativeLayout
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="5dip">
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="1"
+        android:alignmentMode="alignMargins"
+        android:columnOrderPreserved="false">
 
-        <TextView
-            android:id="@+id/branch"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dip"
-            android:layout_alignParentLeft="true"
-            android:text="Branch Name" />
+            android:minWidth="130dp"
+            android:orientation="vertical"
+            android:padding="5dip">
 
-        <TextView
-            android:id="@+id/assetcode"
+            <TextView
+                android:id="@+id/branch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dip"
+                android:text="Branch Name" />
+
+            <TextView
+                android:id="@+id/assetcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingLeft="5dip"
+                android:text="Asset Code" />
+
+            <TextView
+                android:id="@+id/customername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dip"
+                android:text="Customer Name" />
+
+            <TextView
+                android:id="@+id/licenseplate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dip"
+                android:text="License Plate" />
+
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/branch"
-            android:text="Asset Code"
-            android:paddingLeft="5dip"
-            android:ellipsize="end"
-            android:maxLines="1"/>
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:padding="5dip">
+            <Button
+                android:layout_width="wrap_content"
+                style="@style/DefaultButton"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Inspection" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/customername"
-            android:layout_below="@+id/assetcode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dip"
-            android:text="Customer Name" />
+    </GridLayout>
 
-        <TextView
-            android:id="@+id/licenseplate"
-            android:layout_below="@+id/customername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dip"
-            android:text="License Plate" />
-            -- android:layout_alignParentRight="true"
-
-        <Button
-            android:layout_width="wrap_content"
-            style="@style/DefaultButton"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/customername"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="70dp"
-            android:layout_toRightOf="@+id/licenseplate"
-            android:text="Inspection" />
-
-    </RelativeLayout>
 </android.support.v7.widget.CardView>
