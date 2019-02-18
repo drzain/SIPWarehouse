@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Application Name "
+        android:key="example_about"
+        android:summary="SIP Warehouse"
+        android:enabled="true" />
+
+    <Preference
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Version "
+        android:key="example_version"
+        android:summary="1.0"
+        android:enabled="true" />
+
+    <Preference
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Build "
+        android:key="example_build"
+        android:summary="14"
+        android:enabled="true" />
+
+
+</PreferenceScreen>
