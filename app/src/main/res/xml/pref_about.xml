@@ -22,7 +22,7 @@
         android:singleLine="true"
         android:title="Build "
         android:key="example_build"
-        android:summary="14"
+        android:summary="6"
         android:enabled="true" />
 
 

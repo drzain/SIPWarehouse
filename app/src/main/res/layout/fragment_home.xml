@@ -8,7 +8,7 @@
     android:layout_marginBottom="70dp">
 
         <GridLayout
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="3dp"
             android:columnCount="1"
             android:rowCount="1"
             android:alignmentMode="alignMargins"
@@ -22,8 +22,8 @@
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
                 app:cardElevation="6dp"
-                app:cardCornerRadius="12dp"
-                android:layout_margin="12dp"
+                app:cardCornerRadius="10dp"
+                android:layout_margin="10dp"
                 >
 
                 <LinearLayout
@@ -57,9 +57,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="List"
+            android:text="List Data"
             android:textSize="18sp"
-            android:padding="16dp"
+            android:padding="15dp"
             android:textColor="#000000"/>
     <ScrollView
         android:layout_width="match_parent"
