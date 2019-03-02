@@ -33,7 +33,7 @@
                 android:inputType="textEmailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#c5c5c5"
+                android:textColor="#ffffff"
                 android:hint="@string/email" />
         </android.support.design.widget.TextInputLayout>
 
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:inputType="textPassword"
                 android:layout_height="wrap_content"
-                android:textColor="#c5c5c5"
+                android:textColor="#ffffff"
                 android:hint="@string/password" />
         </android.support.design.widget.TextInputLayout>
 
