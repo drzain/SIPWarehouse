@@ -22,6 +22,9 @@ import com.onesignal.OneSignal;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
+    private SessionManager session;
+    private SQLiteHandler db;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                 .unsubscribeWhenNotificationsAreDisabled(true)
                 .init();
+
+        // SQLite database handler
+        db = new SQLiteHandler(getApplicationContext());
+
+        // Session manager
+        session = new SessionManager(getApplicationContext());
+        // Check if user is already logged in or not
+        /*if (!session.isLoggedIn()) {
+            // User is already logged in. Take him to main activity
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }*/
 
         // kita set default nya Home Fragment
         loadFragment(new HomeFragment());
