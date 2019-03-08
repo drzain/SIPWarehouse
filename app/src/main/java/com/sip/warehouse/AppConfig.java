@@ -8,6 +8,6 @@ public class AppConfig {
     // Server user logout url
     public static String URL_LOGOUT = "https://sip.uridu.id/api/v1/auth/logout";
 
-    public static String URL_QUESTION_RECEIVE = "http://localhost:8000/api/questions";
+    public static String URL_QUESTION_RECEIVE = "http://192.168.43.20:8000/api/questions";
 
 }
