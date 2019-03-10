@@ -10,4 +10,6 @@ public class AppConfig {
 
     public static String URL_QUESTION_RECEIVE = "http://192.168.43.20:8000/api/questions";
 
+    public static String URL_QUESTION_CAMERA = "http://192.168.43.20:8000/api/cameras";
+
 }

@@ -11,6 +11,9 @@
         android:rowCount="1">
 
         <TextView
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:minWidth="105dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/partQue"
@@ -29,6 +32,7 @@
             android:layout_column="1"
             android:layout_row="0"
             android:gravity="center"
+            android:buttonTint="@color/black_overlay"
             />
 
         <EditText
@@ -38,7 +42,8 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_column="2"
-            android:layout_row="0"/>
+            android:layout_row="0"
+            android:backgroundTint="@color/black_overlay"/>
 
     </GridLayout>
 

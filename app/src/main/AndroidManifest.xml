@@ -12,7 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AssetReceiveActivity"></activity>
+        <activity android:name=".AssetReceiveActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.App.Base"
+            android:label="Form Receive">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sip.warehouse.MainActivity" />
+        </activity>
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
