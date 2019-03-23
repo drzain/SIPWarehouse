@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="2"
-        android:rowCount="1">
+        android:rowCount="2">
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,6 +33,17 @@
             android:layout_gravity="fill"
             android:foregroundGravity="center"
             android:id="@+id/imgCamera"/>
+
+        <ImageView
+            android:paddingTop="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:foregroundGravity="center"
+            android:id="@+id/viewFoto"/>
 
     </GridLayout>
 

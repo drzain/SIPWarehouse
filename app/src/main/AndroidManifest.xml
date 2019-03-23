@@ -3,6 +3,9 @@
     package="com.sip.warehouse">
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".AppController"
@@ -12,10 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AssetReceiveActivity"
+        <activity android:name=".ReceiveActivity"></activity>
+        <activity
+            android:name=".AssetReceiveActivity"
+            android:label="Form Receive"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.App.Base"
-            android:label="Form Receive">
+            android:theme="@style/Theme.App.Base">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sip.warehouse.MainActivity" />
@@ -43,15 +48,26 @@
         <activity android:name=".NewMainActivity" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="SIP Warehouse"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="544ff378536f524ca9b029e3c750ec0083b74133" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>
