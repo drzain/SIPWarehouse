@@ -11,6 +11,15 @@
         android:rowCount="1">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/idPart_"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:visibility="gone"
+            />
+
+        <TextView
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:minWidth="105dp"
@@ -43,6 +52,7 @@
             android:layout_gravity="fill_horizontal"
             android:layout_column="2"
             android:layout_row="0"
+            android:hint="-"
             android:backgroundTint="@color/black_overlay"/>
 
     </GridLayout>

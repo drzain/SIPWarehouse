@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
     private ListAdapter mListadapter;
     EditText searchHome;
     String token;
-    Integer jml_data;
+    String jml_data;
     private ArrayList<DataAssetReceive> arraylist = new ArrayList<DataAssetReceive>();
 
     @Nullable
@@ -140,7 +140,11 @@ public class HomeFragment extends Fragment {
                             //we have the array named hero inside the object
                             //so here we are getting that json array
                             JSONArray queArray = obj.getJSONArray("data");
-                            jml_data = queArray.length();
+                            if(queArray.length() > 0) {
+                                jml_data = String.valueOf(queArray.length());
+                            }else{
+                                jml_data = "0";
+                            }
                             //now looping through all the elements of the json array
                             ArrayList data = new ArrayList<DataQuestionReceive>();
                             for (int i = 0; i < queArray.length(); i++) {
@@ -172,7 +176,11 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //displaying the error in toast if occurrs
-                        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        try {
+                            Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }catch (Exception x){
+                            x.printStackTrace();
+                        }
                     }
                 }){
 
@@ -206,6 +214,7 @@ public class HomeFragment extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder
         {
+            TextView idWarehouse;
             TextView textViewAssetDetail;
             TextView textViewAgreement;
             TextView textViewCustomer;
@@ -215,6 +224,7 @@ public class HomeFragment extends Fragment {
             public ViewHolder(View itemView)
             {
                 super(itemView);
+                this.idWarehouse = (TextView) itemView.findViewById(R.id.id_warehous);
                 this.textViewAssetDetail = (TextView) itemView.findViewById(R.id.assetDetail);
                 this.textViewAgreement = (TextView) itemView.findViewById(R.id.agreementNo);
                 this.textViewCustomer = (TextView) itemView.findViewById(R.id.customername);
@@ -247,12 +257,13 @@ public class HomeFragment extends Fragment {
                 {
                     //Toast.makeText(getActivity(), "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getActivity(),
-                            AssetReceiveActivity.class);
+                            ReceiveActivity.class);
                     intent.putExtra("name",filterlist.get(position).getCustomer_name());
                     intent.putExtra("code",filterlist.get(position).getAgreement_no());
                     intent.putExtra("plat",filterlist.get(position).getLicense_plate());
                     intent.putExtra("desc",filterlist.get(position).getAsset_description());
                     intent.putExtra("year",filterlist.get(position).getManufacturing_year());
+                    intent.putExtra("idwarehouse",filterlist.get(position).getWarehouse_order_id());
                     startActivity(intent);
                 }
             });
