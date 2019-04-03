@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private SQLiteHandler db;
     private TextView welcome;
     private TextView jmlInspection;
@@ -117,8 +119,10 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String text = searchHome.getText().toString().toLowerCase(Locale.getDefault());
-                mListadapter.filter(text);
+                if(editable.toString().trim().length()>0) {
+                    String text = searchHome.getText().toString().toLowerCase(Locale.getDefault());
+                    mListadapter.filter(text);
+                }
             }
         });
 
@@ -256,6 +260,7 @@ public class HomeFragment extends Fragment {
                 public void onClick(View v)
                 {
                     //Toast.makeText(getActivity(), "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
+                    //setFlagging(filterlist.get(position).getWarehouse_order_id());
                     Intent intent = new Intent(getActivity(),
                             ReceiveActivity.class);
                     intent.putExtra("name",filterlist.get(position).getCustomer_name());
@@ -296,6 +301,62 @@ public class HomeFragment extends Fragment {
             notifyDataSetChanged();
         }
 
+    }
+
+    private void setFlagging(final String idwarehouse) {
+
+        String tag_string_req = "req_flagging";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppConfig.URL_FLAG_RECEIVE_ASSET, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "Flaging Response: " + response.toString());
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    Log.d(TAG, "obj: " + jObj.toString());
+                    String error = jObj.getString("status");
+                    Log.d(TAG, "obj: " + error);
+                    // Check for error node in json
+                } catch (JSONException e) {
+                    // JSON error
+                    e.printStackTrace();
+                    Toast.makeText(getActivity().getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Flagging Error: " + error.getMessage());
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Flagging Failed", Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("warehouse_order_id", idwarehouse);
+                Log.e(TAG, "warehouseid: " + idwarehouse);
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer "+token);
+                Log.e(TAG, "token: " + token);
+                return headers;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ReceiveActivity">
+    tools:context=".ApproveActivity">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_height="match_parent"
@@ -31,36 +31,36 @@
                     android:layout_height="wrap_content"
                     android:layout_row="0"
                     android:layout_columnSpan="2"
-                    android:id="@+id/customerNewName"
+                    android:id="@+id/approveName"
                     android:text="Ujang - 62763582738"
                     android:textSize="16dp"
                     android:textStyle="bold"
                     android:textColor="#FFFFFF"/>
 
                 <TextView
-                    android:paddingLeft="10dp"
+                    android:id="@+id/approveMobil"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="1"
                     android:layout_columnSpan="2"
                     android:layout_gravity="fill_horizontal"
-                    android:id="@+id/txtNewMobil"
+                    android:paddingLeft="10dp"
                     android:text="Honda Mobillio RS - Putih - 2015"
-                    android:textSize="14dp"
-                    android:textColor="#FFFFFF"/>
+                    android:textColor="#FFFFFF"
+                    android:textSize="14dp" />
 
                 <TextView
-                    android:paddingLeft="10dp"
-                    android:paddingBottom="5dp"
-                    android:layout_gravity="fill_horizontal"
+                    android:id="@+id/approvePlat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="2"
                     android:layout_columnSpan="2"
-                    android:id="@+id/txtNewPlat"
+                    android:layout_gravity="fill_horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingBottom="5dp"
                     android:text="B 6725 SG"
-                    android:textSize="14dp"
-                    android:textColor="#FFFFFF"/>
+                    android:textColor="#FFFFFF"
+                    android:textSize="14dp" />
 
             </GridLayout>
 
@@ -105,7 +105,7 @@
                     android:gravity="left"/>
 
                 <EditText
-                    android:id="@+id/txtNewName"
+                    android:id="@+id/appDevName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="0"
@@ -127,7 +127,7 @@
                     android:gravity="left"/>
 
                 <EditText
-                    android:id="@+id/txtNewTitle"
+                    android:id="@+id/appDevTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="1"
@@ -149,7 +149,7 @@
                     android:gravity="left"/>
 
                 <EditText
-                    android:id="@+id/txtNewEmail"
+                    android:id="@+id/appDevEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="2"
@@ -171,7 +171,7 @@
                     android:gravity="left"/>
 
                 <EditText
-                    android:id="@+id/stnkExpDate"
+                    android:id="@+id/appstnkExpDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="3"
@@ -194,7 +194,7 @@
                     android:gravity="left"/>
 
                 <EditText
-                    android:id="@+id/stnkTaxDate"
+                    android:id="@+id/appstnkTaxDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="4"
@@ -217,7 +217,7 @@
                     android:gravity="left"/>
 
                 <EditText
-                    android:id="@+id/km"
+                    android:id="@+id/appkm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="5"
@@ -239,7 +239,7 @@
                     android:gravity="left"/>
 
                 <EditText
-                    android:id="@+id/assetCondition"
+                    android:id="@+id/appassetCondition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="6"
@@ -262,7 +262,7 @@
                     android:gravity="left"/>
 
                 <ImageButton
-                    android:id="@+id/cmrNewKtp"
+                    android:id="@+id/cmrAppKtp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="7"
@@ -272,14 +272,13 @@
                     android:src="@drawable/ic_menu_camera"/>
 
                 <ImageView
-                    android:id="@+id/txtNewcmrKtp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/viewAppKtp"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
                     android:layout_row="8"
                     android:layout_columnWeight="1"
                     android:layout_gravity="fill"
-                    android:layout_column="1"
-                    android:visibility="invisible"/>
+                    android:layout_column="1"/>
 
             </GridLayout>
 
@@ -331,7 +330,7 @@
 
             <android.support.v7.widget.RecyclerView
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/part_new_receive"
+                android:id="@+id/part_new_approve"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -380,184 +379,176 @@
                 android:rowCount="10">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:id="@+id/txtQueCam1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="15dp"
-                    android:minWidth="110dp"
                     android:layout_row="0"
                     android:layout_column="0"
                     android:layout_columnWeight="1"
-                    android:text="Sisi Depan"
-                    android:layout_gravity="fill_horizontal"
-                    android:id="@+id/txtQueCam1"/>
+                    android:layout_gravity="fill"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="15dp"
+                    android:text="Sisi Depan" />
 
                 <ImageView
-                    android:paddingTop="15dp"
-                    android:layout_width="0dp"
+                    android:id="@+id/appCamera1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_menu_camera"
                     android:layout_row="0"
-                    android:layout_columnWeight="1"
                     android:layout_column="1"
-                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
                     android:foregroundGravity="center"
-                    android:id="@+id/imgCamera1"/>
+                    android:paddingTop="15dp"
+                    android:src="@drawable/ic_menu_camera" />
 
                 <ImageView
                     android:paddingTop="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_row="1"
                     android:layout_column="1"
                     android:layout_columnWeight="1"
                     android:layout_gravity="fill"
-                    android:id="@+id/viewFoto1"
-                    android:visibility="invisible"/>
+                    android:id="@+id/viewAppFoto1"/>
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingTop="15dp"
-                    android:minWidth="110dp"
                     android:layout_row="2"
                     android:layout_column="0"
                     android:layout_columnWeight="1"
                     android:text="Sisi Samping Kanan"
-                    android:layout_gravity="fill_horizontal"
+                    android:gravity="left"
+                    android:layout_gravity="fill"
                     android:id="@+id/txtQueCam2"/>
 
                 <ImageView
                     android:paddingTop="15dp"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_menu_camera"
                     android:layout_row="2"
                     android:layout_columnWeight="1"
                     android:layout_column="1"
-                    android:layout_gravity="fill_horizontal"
+                    android:layout_gravity="fill"
                     android:foregroundGravity="center"
-                    android:id="@+id/imgCamera2"/>
+                    android:id="@+id/appCamera2"/>
 
                 <ImageView
                     android:paddingTop="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="200dp"
                     android:layout_row="3"
                     android:layout_column="1"
                     android:layout_columnWeight="1"
                     android:layout_gravity="fill"
-                    android:id="@+id/viewFoto2"
-                    android:visibility="invisible"/>
+                    android:id="@+id/viewAppFoto2"/>
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingTop="15dp"
-                    android:minWidth="110dp"
                     android:layout_row="4"
                     android:layout_column="0"
                     android:layout_columnWeight="1"
                     android:text="Sisi Samping Kiri"
-                    android:layout_gravity="fill_horizontal"
+                    android:layout_gravity="fill"
                     android:id="@+id/txtQueCam3"/>
 
                 <ImageView
                     android:paddingTop="15dp"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_menu_camera"
                     android:layout_row="4"
                     android:layout_columnWeight="1"
                     android:layout_column="1"
-                    android:layout_gravity="fill_horizontal"
+                    android:layout_gravity="fill"
                     android:foregroundGravity="center"
-                    android:id="@+id/imgCamera3"/>
+                    android:id="@+id/appCamera3"/>
 
                 <ImageView
                     android:paddingTop="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="200dp"
                     android:layout_row="5"
                     android:layout_column="1"
                     android:layout_columnWeight="1"
                     android:layout_gravity="fill"
-                    android:id="@+id/viewFoto3"
-                    android:visibility="invisible"/>
+                    android:id="@+id/viewAppFoto3"/>
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingTop="15dp"
-                    android:minWidth="110dp"
                     android:layout_row="6"
                     android:layout_column="0"
                     android:layout_columnWeight="1"
                     android:text="Sisi Belakang"
-                    android:layout_gravity="fill_horizontal"
+                    android:layout_gravity="fill"
                     android:id="@+id/txtQueCam4"/>
 
                 <ImageView
                     android:paddingTop="15dp"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_menu_camera"
                     android:layout_row="6"
                     android:layout_columnWeight="1"
                     android:layout_column="1"
-                    android:layout_gravity="fill_horizontal"
+                    android:layout_gravity="fill"
                     android:foregroundGravity="center"
-                    android:id="@+id/imgCamera4"/>
+                    android:id="@+id/appCamera4"/>
 
                 <ImageView
                     android:paddingTop="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="200dp"
                     android:layout_row="7"
                     android:layout_column="1"
                     android:layout_columnWeight="1"
                     android:layout_gravity="fill"
-                    android:id="@+id/viewFoto4"
-                    android:visibility="invisible"/>
+                    android:id="@+id/viewAppFoto4"/>
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingTop="15dp"
-                    android:minWidth="110dp"
                     android:layout_row="8"
                     android:layout_column="0"
                     android:layout_columnWeight="1"
                     android:text="Dashboard"
-                    android:layout_gravity="fill_horizontal"
+                    android:layout_gravity="fill"
                     android:id="@+id/txtQueCam5"/>
 
                 <ImageView
                     android:paddingTop="15dp"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_menu_camera"
                     android:layout_row="8"
                     android:layout_columnWeight="1"
                     android:layout_column="1"
-                    android:layout_gravity="fill_horizontal"
+                    android:layout_gravity="fill"
                     android:foregroundGravity="center"
-                    android:id="@+id/imgCamera5"/>
+                    android:id="@+id/appCamera5"/>
 
                 <ImageView
                     android:paddingTop="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="200dp"
                     android:layout_row="9"
                     android:layout_column="1"
                     android:layout_columnWeight="1"
                     android:layout_gravity="fill"
-                    android:id="@+id/viewFoto5"
-                    android:visibility="invisible"/>
+                    android:id="@+id/viewAppFoto5"/>
 
             </GridLayout>
 
@@ -571,29 +562,19 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Submit"
+                    android:text="Approve"
                     style="@style/DefaultSubmitButton"
                     android:layout_column="0"
                     android:layout_row="0"
                     android:layout_columnWeight="1"
                     android:layout_gravity="fill"
-                    android:id="@+id/receivesimpan"/>
+                    android:id="@+id/appsimpan"/>
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cancel"
-                    style="@style/DefaultButtonCancel"
-                    android:layout_column="1"
-                    android:layout_row="0"
-                    android:layout_columnWeight="1"
-                    android:layout_gravity="fill"
-                    android:id="@+id/receiveCancel"/>
 
             </GridLayout>
 
         </LinearLayout>
 
-</android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

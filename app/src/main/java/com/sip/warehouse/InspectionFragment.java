@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,23 +20,34 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class InspectionFragment extends Fragment {
 
 
     private SQLiteHandler db;
-    private TextView welcome;
-    private TextView jmlInspection;
+    String token;
     private RecyclerView mRecyclerView;
-    private InspectionFragment.ListAdapter mListadapter;
+    private ListApproveAdapter mListadapter;
     EditText searchApproval;
 
     @Nullable
@@ -49,6 +61,7 @@ public class InspectionFragment extends Fragment {
         // Fetching user details from sqlite
         HashMap<String, String> user = db.getUserDetails();
         String name = user.get("name");
+        token = user.get("token");
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerApprove);
         searchApproval = (EditText) view.findViewById(R.id.searchApproval);
@@ -57,7 +70,7 @@ public class InspectionFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        ArrayList data = new ArrayList<DataNote>();
+        /*ArrayList data = new ArrayList<DataNote>();
         for (int i = 0; i < DataNoteImformation.id.length; i++)
         {
             data.add(
@@ -72,7 +85,9 @@ public class InspectionFragment extends Fragment {
         }
 
         mListadapter = new InspectionFragment.ListAdapter(data);
-        mRecyclerView.setAdapter(mListadapter);
+        mRecyclerView.setAdapter(mListadapter);*/
+
+        loadApproveList();
 
         searchApproval.addTextChangedListener(new TextWatcher() {
             @Override
@@ -96,12 +111,83 @@ public class InspectionFragment extends Fragment {
         return view;
     }
 
-    public class ListAdapter extends RecyclerView.Adapter<InspectionFragment.ListAdapter.ViewHolder>
-    {
-        private ArrayList<DataNote> dataList;
-        private List<DataNote> filterlist = null;
+    public void loadApproveList(){
 
-        public ListAdapter(ArrayList<DataNote> data)
+        //creating a string request to send request to the url
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.URL_ASSET_APPROVE_LIST,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            Log.e("response",response);
+                            //getting the whole json object from the response
+                            JSONObject obj = new JSONObject(response);
+
+                            //we have the array named hero inside the object
+                            //so here we are getting that json array
+                            JSONArray queArray = obj.getJSONArray("data");
+                            //now looping through all the elements of the json array
+                            ArrayList data = new ArrayList<DataQuestionReceive>();
+                            for (int i = 0; i < queArray.length(); i++) {
+                                JSONObject queObject = queArray.getJSONObject(i);
+                                data.add(
+                                        new DataApproveReceive(
+                                                queObject.getString("asset_receive_id"),
+                                                queObject.getString("agreement_no"),
+                                                queObject.getString("customer_name"),
+                                                queObject.getString("branch_name"),
+                                                queObject.getString("asset_description"),
+                                                queObject.getString("license_plate"),
+                                                queObject.getString("manufacturing_year")
+                                        )
+                                );
+                                //getting the json object of the particular index inside the array
+
+                            }
+                            mListadapter = new ListApproveAdapter(data);
+                            mRecyclerView.setAdapter(mListadapter);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //displaying the error in toast if occurrs
+                        try {
+                            Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }catch (Exception x){
+                            x.printStackTrace();
+                        }
+                    }
+                }){
+
+            /** Passing some request headers* */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer "+token);
+                return headers;
+            }
+        };
+
+        //creating a request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+
+        //adding the string request to request queue
+        requestQueue.add(stringRequest);
+
+    }
+
+    public class ListApproveAdapter extends RecyclerView.Adapter<ListApproveAdapter.ViewHolder>
+    {
+        private ArrayList<DataApproveReceive> dataList;
+        private List<DataApproveReceive> filterlist = null;
+
+        public ListApproveAdapter(ArrayList<DataApproveReceive> data)
         {
             this.dataList = data;
             this.filterlist = new ArrayList(dataList);
@@ -109,49 +195,57 @@ public class InspectionFragment extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder
         {
-            TextView textViewBranch;
-            TextView textViewAsset;
-            TextView textViewCustomer;
-            TextView textViewLicense;
-            Button btnReceive;
+            TextView appViewBranch;
+            TextView appViewAsset;
+            TextView appViewCustomer;
+            TextView appViewLicense;
+            TextView appViewId;
+            Button btnApprove;
 
             public ViewHolder(View itemView)
             {
                 super(itemView);
-                this.textViewBranch = (TextView) itemView.findViewById(R.id.branch);
-                this.textViewAsset = (TextView) itemView.findViewById(R.id.assetcode);
-                this.textViewCustomer = (TextView) itemView.findViewById(R.id.customername);
-                this.textViewLicense = (TextView) itemView.findViewById(R.id.licenseplate);
-                this.btnReceive = (Button) itemView.findViewById(R.id.receiveBtn);
+                this.appViewBranch = (TextView) itemView.findViewById(R.id.appbranch);
+                this.appViewAsset = (TextView) itemView.findViewById(R.id.appassetcode);
+                this.appViewCustomer = (TextView) itemView.findViewById(R.id.appcustomername);
+                this.appViewLicense = (TextView) itemView.findViewById(R.id.applicenseplate);
+                this.appViewId = (TextView) itemView.findViewById(R.id.id_receive);
+                this.btnApprove = (Button) itemView.findViewById(R.id.approveBtn);
             }
         }
 
         @Override
-        public InspectionFragment.ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        public ListApproveAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerapprove_item, parent, false);
 
-            InspectionFragment.ListAdapter.ViewHolder viewHolder = new InspectionFragment.ListAdapter.ViewHolder(view);
+            ListApproveAdapter.ViewHolder viewHolder = new ListApproveAdapter.ViewHolder(view);
             return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(InspectionFragment.ListAdapter.ViewHolder holder, final int position)
+        public void onBindViewHolder(ListApproveAdapter.ViewHolder holder, final int position)
         {
-            holder.textViewBranch.setText(filterlist.get(position).getBranch());
-            holder.textViewAsset.setText(filterlist.get(position).getAssetcode());
-            holder.textViewCustomer.setText(filterlist.get(position).getCustomer());
-            holder.textViewLicense.setText(filterlist.get(position).getLisenceplate());
+            Log.e("error",filterlist.get(position).getLicense_plate());
+            holder.appViewBranch.setText(filterlist.get(position).getBranch_name());
+            holder.appViewAsset.setText(filterlist.get(position).getAsset_description());
+            holder.appViewCustomer.setText(filterlist.get(position).getCustomer_name());
+            holder.appViewLicense.setText(filterlist.get(position).getLicense_plate());
 
-            holder.btnReceive.setOnClickListener(new View.OnClickListener()
+            holder.btnApprove.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View v)
                 {
-                    Toast.makeText(getActivity(), "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
-                   /* Intent intent = new Intent(getActivity(),
-                            AssetReceiveActivity.class);
-                    startActivity(intent);*/
+                    Intent intent = new Intent(getActivity(),
+                            ApproveActivity.class);
+                    intent.putExtra("name",filterlist.get(position).getCustomer_name());
+                    intent.putExtra("code",filterlist.get(position).getAgreement_no());
+                    intent.putExtra("plat",filterlist.get(position).getLicense_plate());
+                    intent.putExtra("desc",filterlist.get(position).getAsset_description());
+                    intent.putExtra("year",filterlist.get(position).getManufacturing_year());
+                    intent.putExtra("idreceive",filterlist.get(position).getAsset_receive_id());
+                    startActivity(intent);
                 }
             });
         }
@@ -170,9 +264,10 @@ public class InspectionFragment extends Fragment {
             }
             else
             {
-                for (DataNote wp : dataList)
+                for (DataApproveReceive wp : dataList)
                 {
-                    if (wp.getCustomer().toLowerCase().contains(charText.toLowerCase()))
+                    if (wp.getCustomer_name().toLowerCase().contains(charText.toLowerCase())||wp.getAgreement_no().toLowerCase().contains(charText.toLowerCase())
+                            ||wp.getAsset_description().toLowerCase().contains(charText.toLowerCase())||wp.getLicense_plate().toLowerCase().contains(charText.toLowerCase()))
                     {
                         //Toast.makeText(getActivity(), "data " + wp.getCustomer() , Toast.LENGTH_SHORT).show();
                         filterlist.add(wp);
