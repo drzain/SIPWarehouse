@@ -43,12 +43,14 @@ import java.util.Map;
 
 public class InspectionFragment extends Fragment {
 
-
+    private TextView welcome;
+    private TextView jmlInspection;
     private SQLiteHandler db;
     String token;
     private RecyclerView mRecyclerView;
     private ListApproveAdapter mListadapter;
     EditText searchApproval;
+    String jml_data;
 
     @Nullable
     @Override
@@ -63,8 +65,12 @@ public class InspectionFragment extends Fragment {
         String name = user.get("name");
         token = user.get("token");
 
+        welcome = (TextView) view.findViewById(R.id.txtWelcome2);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerApprove);
         searchApproval = (EditText) view.findViewById(R.id.searchApproval);
+        jmlInspection = (TextView) view.findViewById(R.id.txtJmlInspection2);
+
+        welcome.setText("Welcome, "+name +"!");
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -127,6 +133,12 @@ public class InspectionFragment extends Fragment {
                             //we have the array named hero inside the object
                             //so here we are getting that json array
                             JSONArray queArray = obj.getJSONArray("data");
+                            if(queArray.length() > 0) {
+                                jml_data = String.valueOf(queArray.length());
+                            }else{
+                                jml_data = "0";
+                            }
+                            Log.e("queArray",jml_data);
                             //now looping through all the elements of the json array
                             ArrayList data = new ArrayList<DataQuestionReceive>();
                             for (int i = 0; i < queArray.length(); i++) {
@@ -145,6 +157,7 @@ public class InspectionFragment extends Fragment {
                                 //getting the json object of the particular index inside the array
 
                             }
+                            jmlInspection.setText("Saat ini anda memiliki "+jml_data+" Approval Data.");
                             mListadapter = new ListApproveAdapter(data);
                             mRecyclerView.setAdapter(mListadapter);
 

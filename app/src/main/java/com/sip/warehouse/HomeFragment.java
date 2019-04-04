@@ -260,7 +260,7 @@ public class HomeFragment extends Fragment {
                 public void onClick(View v)
                 {
                     //Toast.makeText(getActivity(), "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
-                    //setFlagging(filterlist.get(position).getWarehouse_order_id());
+                    setFlagging(filterlist.get(position).getWarehouse_order_id());
                     Intent intent = new Intent(getActivity(),
                             ReceiveActivity.class);
                     intent.putExtra("name",filterlist.get(position).getCustomer_name());

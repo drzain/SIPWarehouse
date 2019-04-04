@@ -38,7 +38,7 @@ android {
         applicationId "com.sip.warehouse"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 15
+        versionCode 18
         versionName "0.1.12"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [

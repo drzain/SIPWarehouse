@@ -86,10 +86,17 @@ public class LoginActivity extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
-            // User is already logged in. Take him to main activity
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+
+            if(session.isUser().equals("3")) {
+                // User is already logged in. Take him to main activity
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }else if(session.isUser().equals("2")){
+                Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
 
         // Login button Click Event
@@ -187,14 +194,22 @@ public class LoginActivity extends AppCompatActivity {
                         String created_at = user.getString("created_at");
                         String updated_at = user.getString("updated_at");
 
+                        session.setStatus(role);
                         // Inserting row in users table
                         db.addUser(token, expired, name, username, email, role, provider, providerid, created_at, updated_at);
 
                         // Launch main activity
-                        Intent intent = new Intent(LoginActivity.this,
-                                MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        if(role.equals("3")) {
+                            Intent intent = new Intent(LoginActivity.this,
+                                    MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }else if(role.equals("2")){
+                            Intent intent = new Intent(LoginActivity.this,
+                                    NewMainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     } else {
                         // Error in login. Get the error message
                         String errorMsg = jObj.getString("message");
