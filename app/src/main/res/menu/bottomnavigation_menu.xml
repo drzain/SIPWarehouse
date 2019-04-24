@@ -5,10 +5,10 @@
         android:title="@string/home"
         android:icon="@drawable/ic_icons8_home_filled"/>
 
-    <!--<item
+    <item
         android:id="@+id/grading_menu"
         android:title="@string/grading"
-        android:icon="@drawable/ic_icons8_tick_box"/>-->
+        android:icon="@drawable/ic_icons8_tick_box"/>
 
     <item
         android:id="@+id/history_menu"

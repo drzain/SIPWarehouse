@@ -2,13 +2,13 @@ package com.sip.warehouse;
 
 public class DataAssetReceive {
 
-    String warehouse_order_id, agreement_no, customer_name, branch_name, asset_description, license_plate, manufacturing_year;
+    String warehouse_order_id, agreement_no, customer_name, branch_name, asset_description, license_plate, manufacturing_year, asset_type;
 
     public DataAssetReceive(){
 
     }
 
-    public DataAssetReceive( String warehouse_order_id, String agreement_no, String customer_name, String branch_name, String asset_description, String license_plate, String manufacturing_year){
+    public DataAssetReceive( String warehouse_order_id, String agreement_no, String customer_name, String branch_name, String asset_description, String license_plate, String manufacturing_year, String asset_type){
 
         this.warehouse_order_id = warehouse_order_id;
         this.agreement_no = agreement_no;
@@ -17,6 +17,7 @@ public class DataAssetReceive {
         this.asset_description = asset_description;
         this.license_plate = license_plate;
         this.manufacturing_year = manufacturing_year;
+        this.asset_type = asset_type;
 
     }
 
@@ -74,5 +75,13 @@ public class DataAssetReceive {
 
     public void setManufacturing_year(String manufacturing_year) {
         this.manufacturing_year = manufacturing_year;
+    }
+
+    public String getAsset_type() {
+        return asset_type;
+    }
+
+    public void setAsset_type(String asset_type) {
+        this.asset_type = asset_type;
     }
 }

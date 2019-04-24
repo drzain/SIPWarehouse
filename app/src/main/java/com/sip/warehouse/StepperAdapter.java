@@ -40,13 +40,25 @@ public class StepperAdapter extends AbstractFragmentStepAdapter {
                 b3.putInt(CURRENT_STEP_POSITION_KEY, position);
                 step3.setArguments(b3);
                 return step3;
+            case 3:
+                final FourFragment step4 = new FourFragment();
+                Bundle b4 = new Bundle();
+                b4.putInt(CURRENT_STEP_POSITION_KEY, position);
+                step4.setArguments(b4);
+                return step4;
+            case 4:
+                final FiveFragment step5 = new FiveFragment();
+                Bundle b5 = new Bundle();
+                b5.putInt(CURRENT_STEP_POSITION_KEY, position);
+                step5.setArguments(b5);
+                return step5;
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 5;
     }
     @NonNull
     @Override
@@ -55,15 +67,23 @@ public class StepperAdapter extends AbstractFragmentStepAdapter {
         switch (position){
             case 0:
                 return new StepViewModel.Builder(context)
-                        .setTitle("Step 1") //can be a CharSequence instead
+                        .setTitle("Exterior") //can be a CharSequence instead
                         .create();
             case 1:
                 return new StepViewModel.Builder(context)
-                        .setTitle("Step 2") //can be a CharSequence instead
+                        .setTitle("Interior") //can be a CharSequence instead
                         .create();
             case 2:
                 return new StepViewModel.Builder(context)
-                        .setTitle("Step 3") //can be a CharSequence instead
+                        .setTitle("Machine") //can be a CharSequence instead
+                        .create();
+            case 3:
+                return new StepViewModel.Builder(context)
+                        .setTitle("Kaki-Kaki") //can be a CharSequence instead
+                        .create();
+            case 4:
+                return new StepViewModel.Builder(context)
+                        .setTitle("Accesories") //can be a CharSequence instead
                         .create();
         }
         return null;

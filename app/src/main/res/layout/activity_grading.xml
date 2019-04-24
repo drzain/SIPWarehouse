@@ -1,0 +1,214 @@
+<LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/browser_actions_title_color"
+        android:rowCount="9"
+        android:columnCount="2">
+
+        <TextView
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:text="ID"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:id="@+id/idGrading"
+            android:text="20190301IK0100001"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:text="Asset Description"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:id="@+id/assetDesc"
+            android:text="Suzuki SX4 S-Cross 1.5 "
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:text="License Plate"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:id="@+id/platKendaraan"
+            android:text="B10090GFD "
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_row="3"
+            android:layout_column="0"
+            android:text="Man. Year"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="wrap_content"
+            android:layout_row="3"
+            android:layout_column="1"
+            android:id="@+id/manYear"
+            android:text="2011"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_row="4"
+            android:layout_column="0"
+            android:text="KM"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="wrap_content"
+            android:layout_row="4"
+            android:layout_column="1"
+            android:id="@+id/kmGrading"
+            android:text="34.000"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_row="5"
+            android:layout_column="0"
+            android:text="Colour"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="wrap_content"
+            android:layout_row="5"
+            android:layout_column="1"
+            android:id="@+id/warna"
+            android:text="Hitam"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_row="6"
+            android:layout_column="0"
+            android:text="Chassis No"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="wrap_content"
+            android:layout_row="6"
+            android:layout_column="1"
+            android:id="@+id/chassisNo"
+            android:text="MHK87650988785"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_row="7"
+            android:layout_column="0"
+            android:text="Machine No"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="wrap_content"
+            android:layout_row="7"
+            android:layout_column="1"
+            android:id="@+id/machineNo"
+            android:text="5436787889"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_row="8"
+            android:layout_column="0"
+            android:text="Receive Date"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="wrap_content"
+            android:layout_row="8"
+            android:layout_column="1"
+            android:id="@+id/receiveDate"
+            android:text="01-04-2019"
+            android:textColor="#FFFFFF"/>
+
+    </GridLayout>
+    <com.stepstone.stepper.StepperLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/stepperLayoutGrading"
+        app:ms_stepperType="tabs">
+    </com.stepstone.stepper.StepperLayout>
+</LinearLayout>

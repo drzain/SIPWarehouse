@@ -135,8 +135,7 @@ public class AssetReceiveActivity extends AppCompatActivity {
                                         new DataQuestionReceive(
                                                 queObject.getString("id"),
                                                 queObject.getString("question"),
-                                                queObject.getString("description"),
-                                                queObject.getString("type")
+                                                queObject.getString("description")
                                         )
                                 );
                                 //getting the json object of the particular index inside the array
@@ -199,9 +198,9 @@ public class AssetReceiveActivity extends AppCompatActivity {
         public void onBindViewHolder(ListAdapter.ViewHolder holder, final int position)
         {
 
-            if(dataList.get(position).getType().equals("part")) {
+            /*if(dataList.get(position).getType().equals("part")) {
                 holder.textQues.setText(dataList.get(position).getQuestion());
-            }
+            }*/
 
         }
 
@@ -239,8 +238,7 @@ public class AssetReceiveActivity extends AppCompatActivity {
                                         new DataQuestionReceive(
                                                 queObject.getString("id"),
                                                 queObject.getString("question"),
-                                                queObject.getString("description"),
-                                                queObject.getString("type")
+                                                queObject.getString("description")
                                         )
                                 );
                                 //getting the json object of the particular index inside the array
@@ -306,7 +304,7 @@ public class AssetReceiveActivity extends AppCompatActivity {
         public void onBindViewHolder(ListAdapter2.ViewHolder holder, final int position)
         {
 
-            if(dataList.get(position).getType().equals("foto")) {
+            /*if(dataList.get(position).getType().equals("foto")) {
                 holder.textCam.setText(dataList.get(position).getQuestion());
                 holder.btnCam.setOnClickListener(new View.OnClickListener(){
                     @Override
@@ -322,7 +320,7 @@ public class AssetReceiveActivity extends AppCompatActivity {
                         }
                     }
                 });
-            }
+            }*/
 
         }
 

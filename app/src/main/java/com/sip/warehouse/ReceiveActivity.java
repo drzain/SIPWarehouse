@@ -91,7 +91,7 @@ public class ReceiveActivity extends AppCompatActivity {
     private Button btnCancel;
     private ImageButton btnKtp;
     DatePickerDialog datePickerDialog;
-    String token, idwarehouse, txtPICName, txtPICTitle, txtPICEmail, stnkExp, stnkTaxDate, kmCar, carCondition;
+    String token, idwarehouse, txtPICName, txtPICTitle, txtPICEmail, stnkExp, stnkTaxDate, kmCar, carCondition, typeKendaraan;
     EditText txtName,txtTitle,txtEmail, stnkDate, stnktax, km, assetcondition;
     String encodedImageKtp, encodedImageF1,encodedImageF2,encodedImageF3,encodedImageF4,encodedImageF5;
     String fixencodedImageKtp, fixencodedImageF1,fixencodedImageF2,fixencodedImageF3,fixencodedImageF4,fixencodedImageF5;
@@ -228,6 +228,7 @@ public class ReceiveActivity extends AppCompatActivity {
         String description = intent.getStringExtra("desc");
         String year = intent.getStringExtra("year");
         idwarehouse = intent.getStringExtra("idwarehouse");
+        typeKendaraan = intent.getStringExtra("asset_type");
 
         txtCustomer.setText(customerName+" - "+code);
         txtPlat.setText(platNumber);
@@ -285,6 +286,11 @@ public class ReceiveActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Press Cancel for back to list", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -702,7 +708,7 @@ public class ReceiveActivity extends AppCompatActivity {
     public void loadQuestionList(){
 
         //creating a string request to send request to the url
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.URL_QUESTION_RECEIVE,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.URL_QUESTION_RECEIVE+"?asset_type="+typeKendaraan+"&inspection_code=ASRCV",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -719,15 +725,15 @@ public class ReceiveActivity extends AppCompatActivity {
                             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                             listViewPart.setLayoutManager(layoutManager);
                             //now looping through all the elements of the json array
+                            Log.e("data parts",queArray.toString());
                             ArrayList data = new ArrayList<DataQuestionReceive>();
                             for (int i = 0; i < queArray.length(); i++) {
                                 JSONObject queObject = queArray.getJSONObject(i);
                                 data.add(
                                         new DataQuestionReceive(
                                                 queObject.getString("id"),
-                                                queObject.getString("category_id"),
-                                                queObject.getString("part_name"),
-                                                queObject.getString("notes")
+                                                queObject.getString("part_code"),
+                                                queObject.getString("part_name")
                                         )
                                 );
                                 //getting the json object of the particular index inside the array
@@ -862,7 +868,7 @@ public class ReceiveActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    //Log.e("datafoto",jsonArray.toString());
+                    Log.e("datafoto",jsonArray.toString());
                     JSONArray jsonChek = new JSONArray();
                     ArrayList<String> list = new ArrayList<String>();
                     txtPICName =  txtName.getText().toString();

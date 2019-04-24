@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ApproveActivity"></activity>
+        <activity android:name=".GradingActivity"></activity>
+        <activity android:name=".ApproveActivity" />
         <activity android:name=".ReceiveActivity" />
         <activity
             android:name=".AssetReceiveActivity"
@@ -46,10 +47,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sip.warehouse.MainActivity" />
         </activity>
-        <activity android:name=".NewMainActivity"
+        <activity
+            android:name=".NewMainActivity"
             android:label="SIP Warehouse"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"
             android:label="SIP Warehouse"

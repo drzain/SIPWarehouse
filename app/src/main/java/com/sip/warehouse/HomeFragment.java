@@ -161,7 +161,8 @@ public class HomeFragment extends Fragment {
                                                 queObject.getString("branch_name"),
                                                 queObject.getString("asset_description"),
                                                 queObject.getString("license_plate"),
-                                                queObject.getString("manufacturing_year")
+                                                queObject.getString("manufacturing_year"),
+                                                queObject.getString("asset_type")
                                         )
                                 );
                                 //getting the json object of the particular index inside the array
@@ -268,6 +269,7 @@ public class HomeFragment extends Fragment {
                     intent.putExtra("plat",filterlist.get(position).getLicense_plate());
                     intent.putExtra("desc",filterlist.get(position).getAsset_description());
                     intent.putExtra("year",filterlist.get(position).getManufacturing_year());
+                    intent.putExtra("asset_type",filterlist.get(position).getAsset_type());
                     intent.putExtra("idwarehouse",filterlist.get(position).getWarehouse_order_id());
                     startActivity(intent);
                 }

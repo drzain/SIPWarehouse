@@ -106,7 +106,7 @@
 
                 <EditText
                     android:id="@+id/txtNewName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_row="0"
                     android:layout_column="1"
@@ -128,7 +128,7 @@
 
                 <EditText
                     android:id="@+id/txtNewTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_row="1"
                     android:layout_column="1"
@@ -150,7 +150,7 @@
 
                 <EditText
                     android:id="@+id/txtNewEmail"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_row="2"
                     android:layout_column="1"
@@ -172,7 +172,7 @@
 
                 <EditText
                     android:id="@+id/stnkExpDate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_row="3"
                     android:layout_column="1"
@@ -195,7 +195,7 @@
 
                 <EditText
                     android:id="@+id/stnkTaxDate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_row="4"
                     android:layout_column="1"
@@ -218,7 +218,7 @@
 
                 <EditText
                     android:id="@+id/km"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_row="5"
                     android:layout_column="1"
@@ -240,7 +240,7 @@
 
                 <EditText
                     android:id="@+id/assetCondition"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_row="6"
                     android:layout_column="1"

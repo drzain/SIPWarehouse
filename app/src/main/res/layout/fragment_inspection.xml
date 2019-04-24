@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_m"
+    android:background="@drawable/bg_m3"
     android:orientation="vertical"
     android:layout_marginBottom="70dp">
 
@@ -38,12 +38,12 @@
         android:id="@+id/searchApproval"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
         android:layout_marginTop="55dp"
-        android:textColor="#000000"
-        android:hint="Search"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:focusable="true"
-        />
+        android:hint="Search"
+        android:paddingLeft="15dp"
+        android:textColor="#000000" />
 
     <TextView
         android:layout_width="match_parent"

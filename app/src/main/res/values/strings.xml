@@ -89,6 +89,19 @@
         <item>3</item>
     </string-array>
 
+    <string-array name="grading_kondisi">
+        <item>OK</item>
+        <item>BERMASALAH</item>
+        <item>RUSAK/TIDAK ADA</item>
+    </string-array>
+
+    <string-array name="grading_tipe">
+        <item>SELECT TIPE</item>
+        <item>All</item>
+        <item>Mobil</item>
+        <item>Motor</item>
+    </string-array>
+
     <string-array name="multi_select_list_preference_default_value" />
 
     <string name="pref_title_system_sync_settings">System sync settings</string>

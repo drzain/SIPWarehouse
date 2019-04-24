@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/idGrading"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:minWidth="105dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gradingPart"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_column="0"
+            android:layout_row="0"
+            />
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="fill_horizontal"
+            android:layout_column="1"
+            android:layout_row="0"
+            android:id="@+id/kondisiGrading"
+            android:background="@drawable/spinner_bg"
+            android:entries="@array/grading_kondisi"></Spinner>
+
+        <EditText
+            android:id="@+id/noteGrading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_column="2"
+            android:layout_row="0"
+            android:hint="-"
+            android:backgroundTint="@color/black_overlay"/>
+
+    </GridLayout>
+
+</LinearLayout>
