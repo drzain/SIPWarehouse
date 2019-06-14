@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/title_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:text="TESTING"/>
+
+    <TextView style="@style/Divider"
+        android:layout_below="@+id/title_category"
+        android:id="@+id/dividerPart"/>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="1"
+        android:layout_below="@+id/dividerPart"
+        android:id="@+id/gridPart">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:text="Part"
+            android:textSize="13dp"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:layout_gravity="fill"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_gravity="fill"
+            android:text="Kondisi"
+            android:textSize="13dp"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:text="Note"
+            android:textSize="13dp"
+            android:gravity="center"
+            android:layout_gravity="fill"
+            android:layout_columnWeight="1"
+            android:textStyle="bold"/>
+
+    </GridLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/gridPart"
+        android:id="@+id/grading_child"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</RelativeLayout>

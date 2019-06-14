@@ -22,7 +22,7 @@
         <TextView
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:minWidth="105dp"
+            android:minWidth="120dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/partQue"

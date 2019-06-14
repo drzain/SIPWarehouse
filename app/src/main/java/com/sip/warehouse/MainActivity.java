@@ -18,7 +18,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.crashlytics.android.Crashlytics;
 import com.onesignal.OneSignal;
+
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Fabric.with(this, new Crashlytics());
         // OneSignal Initialization
         OneSignal.startInit(this)
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
@@ -42,12 +46,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         // Session manager
         session = new SessionManager(getApplicationContext());
         // Check if user is already logged in or not
-        /*if (!session.isLoggedIn()) {
+        if (!session.isLoggedIn()) {
             // User is already logged in. Take him to main activity
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
-        }*/
+        }
 
         // kita set default nya Home Fragment
         loadFragment(new HomeFragment());

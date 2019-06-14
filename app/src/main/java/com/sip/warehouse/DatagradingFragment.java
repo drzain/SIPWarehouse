@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class DatagradingFragment extends Fragment {
     private SQLiteHandler db;
     private TextView jmlInspection;
     private RecyclerView mRecyclerView;
+    private SessionManager session;
     private DatagradingFragment.ListAdapter mListadapter;
     EditText searchHome;
     String token;
@@ -67,6 +69,16 @@ public class DatagradingFragment extends Fragment {
         // Fetching user details from sqlite
         HashMap<String, String> user = db.getUserDetails();
         token = user.get("token");
+
+        // Session manager
+        session = new SessionManager(getActivity().getApplicationContext());
+        // Check if user is already logged in or not
+        if (!session.isLoggedIn()) {
+            // User is already logged in. Take him to main activity
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerGrading);
         /*searchHome = (EditText) view.findViewById(R.id.searchGrading);*/
@@ -105,7 +117,11 @@ public class DatagradingFragment extends Fragment {
                 if(position != 0) {
                     if(mySpinner.getItemAtPosition(position).toString() != null) {
                         item = adapterView.getItemAtPosition(position).toString();
-                        mListadapter.filter(item);
+                        try {
+                            mListadapter.filter(item);
+                        }catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
                 //Toast.makeText(getActivity(), "Selected"+item, Toast.LENGTH_SHORT).show();
@@ -162,6 +178,7 @@ public class DatagradingFragment extends Fragment {
                                 JSONObject queObject = queArray.getJSONObject(i);
                                 data.add(
                                         new DataGrading(
+                                                queObject.getString("id"),
                                                 queObject.getString("company_id"),
                                                 queObject.getString("warehouse_id"),
                                                 queObject.getString("company_code"),
@@ -287,24 +304,42 @@ public class DatagradingFragment extends Fragment {
         {
             holder.textViewAgreement.setText(filterlist.get(position).getAgreement_no());
             holder.textViewCustomer.setText(filterlist.get(position).getCustomer_name());
-            holder.textViewAssetDetail.setText(filterlist.get(position).getBranch_name());
+            holder.textViewAssetDetail.setText(filterlist.get(position).getAsset_description());
             holder.textViewLicense.setText(filterlist.get(position).getLicense_plate());
             holder.textViewType.setText(filterlist.get(position).getAsset_type());
 
             holder.btnGrading.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(),
-                            GradingActivity.class);
-                    intent.putExtra("kik",filterlist.get(position).getKik());
-                    intent.putExtra("asset_desc",filterlist.get(position).getAsset_description());
-                    intent.putExtra("plat",filterlist.get(position).getLicense_plate());
-                    intent.putExtra("man_year",filterlist.get(position).getManufacturing_year());
-                    intent.putExtra("colour",filterlist.get(position).getColour());
-                    intent.putExtra("chasis",filterlist.get(position).getSerial_no_1());
-                    intent.putExtra("machine",filterlist.get(position).getSerial_no_2());
-                    intent.putExtra("receive_date",filterlist.get(position).getInventory_date());
-                    startActivity(intent);
+
+                    cekValidate(filterlist.get(position).getId(),new VolleyCallback(){
+                        @Override
+                        public void onSuccess(String result){
+
+                            if(result.equals("1")){
+                                //setFlagging(filterlist.get(position).getId());
+                                db.addGrading(filterlist.get(position).getId(),filterlist.get(position).getKik(),filterlist.get(position).asset_description,filterlist.get(position).getLicense_plate(),filterlist.get(position).getManufacturing_year(),filterlist.get(position).getColour(),filterlist.get(position).getSerial_no_1(),filterlist.get(position).getSerial_no_2(),filterlist.get(position).getInventory_date(),filterlist.get(position).getAsset_type(),"Y");
+                                Intent intent = new Intent(getActivity(),
+                                        SelfGradingActivity.class);
+                                intent.putExtra("id",filterlist.get(position).getId());
+                                intent.putExtra("kik",filterlist.get(position).getKik());
+                                intent.putExtra("asset_desc",filterlist.get(position).getAsset_description());
+                                intent.putExtra("plat",filterlist.get(position).getLicense_plate());
+                                intent.putExtra("man_year",filterlist.get(position).getManufacturing_year());
+                                intent.putExtra("colour",filterlist.get(position).getColour());
+                                intent.putExtra("chasis",filterlist.get(position).getSerial_no_1());
+                                intent.putExtra("machine",filterlist.get(position).getSerial_no_2());
+                                intent.putExtra("receive_date",filterlist.get(position).getInventory_date());
+                                intent.putExtra("asset_type", filterlist.get(position).getAsset_type());
+                                startActivity(intent);
+                            }else{
+                                Toast.makeText(getActivity(), "maaf, data sedang di grading, silahkan coba data yang lain", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
+
                 }
             });
 
@@ -337,6 +372,115 @@ public class DatagradingFragment extends Fragment {
             notifyDataSetChanged();
         }
 
+    }
+
+    private void setFlagging(final String idgrading) {
+
+        String tag_string_req = "req_flagging";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppConfig.URL_FLAG_GRADING, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "Flaging Response: " + response.toString());
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    Log.d(TAG, "obj: " + jObj.toString());
+                    String error = jObj.getString("status");
+                    Log.d(TAG, "obj: " + error);
+                    // Check for error node in json
+                } catch (JSONException e) {
+                    // JSON error
+                    e.printStackTrace();
+                    Toast.makeText(getActivity().getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Flagging Error: " + error.getMessage());
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Flagging Failed", Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id", idgrading);
+                Log.e(TAG, "id: " + idgrading);
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer "+token);
+                Log.e(TAG, "token: " + token);
+                return headers;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    private void cekValidate(final String idwarehouse,final VolleyCallback callback){
+
+        String tag_string_req = "req_flagging";
+
+        StringRequest strReq = new StringRequest(Request.Method.GET,
+                AppConfig.URL_VALIDATE_GRADING+"?id="+idwarehouse, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "Flaging Response: " + response.toString());
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    Log.d(TAG, "obj: " + jObj.toString());
+                    String error = jObj.getString("status");
+                    callback.onSuccess(error);
+                    Log.d(TAG, "obj: " + error);
+                    // Check for error node in json
+                } catch (JSONException e) {
+                    // JSON error
+                    e.printStackTrace();
+                    Toast.makeText(getActivity().getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Validate Error: " + error.getMessage());
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Validate Failed", Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer "+token);
+                headers.put("Content_Type", "application/json");
+                return headers;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+
+    }
+
+    public interface VolleyCallback{
+        void onSuccess(String result);
     }
 
 }

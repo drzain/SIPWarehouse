@@ -91,8 +91,19 @@
 
     <string-array name="grading_kondisi">
         <item>OK</item>
-        <item>BERMASALAH</item>
-        <item>RUSAK/TIDAK ADA</item>
+        <item>RUSAK RINGAN</item>
+        <item>RUSAK BERAT</item>
+        <item>TIDAK ADA</item>
+    </string-array>
+
+    <string-array name="stnk_status">
+        <item>ADA</item>
+        <item>TIDAK ADA</item>
+    </string-array>
+
+    <string-array name="stnk_pemilik">
+        <item>Individu</item>
+        <item>Perusahaan</item>
     </string-array>
 
     <string-array name="grading_tipe">

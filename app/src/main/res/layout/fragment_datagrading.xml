@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_m3"
     android:orientation="vertical"
     android:layout_marginBottom="70dp">
 
     <LinearLayout
         android:orientation="vertical"
         android:padding="14dp"
+        android:background="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
@@ -28,9 +28,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/categoryGrading"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="15dp"
         android:focusable="true"
-        android:paddingLeft="15dp"
+        android:padding="10dp"
         android:background="@drawable/spinner_bg"
         android:entries="@array/grading_tipe"></Spinner>
 

@@ -15,7 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GradingActivity"></activity>
+        <activity android:name=".NewGradingActivity"></activity>
+        <activity android:name=".ApproveGradingActivity" />
+        <activity android:name=".SelfGradingActivity" />
+        <activity android:name=".GradingActivity" />
         <activity android:name=".ApproveActivity" />
         <activity android:name=".ReceiveActivity" />
         <activity

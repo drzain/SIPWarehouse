@@ -28,6 +28,7 @@ public class NewMainActivity extends AppCompatActivity implements BottomNavigati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_main);
 
+        Fabric.with(this, new Crashlytics());
         // OneSignal Initialization
         OneSignal.startInit(this)
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
@@ -40,12 +41,12 @@ public class NewMainActivity extends AppCompatActivity implements BottomNavigati
         // Session manager
         session = new SessionManager(getApplicationContext());
         // Check if user is already logged in or not
-        /*if (!session.isLoggedIn()) {
+        if (!session.isLoggedIn()) {
             // User is already logged in. Take him to main activity
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(NewMainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
-        }*/
+        }
 
         // kita set default nya Home Fragment
         loadFragment(new InspectionFragment());

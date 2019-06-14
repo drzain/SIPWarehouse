@@ -661,8 +661,8 @@ public class ApproveActivity extends AppCompatActivity {
 
     public void loadDetailList(){
 
-        String URL_DETAIL = "https://sip.uridu.id/api/v1/asset-receives/"+idreceive+"/detail";
-        final String IMAGE_URL = "http://sip.uridu.id/upload/asset-receive/";
+        String URL_DETAIL = "https://devsteam.sitama.co.id/api/v1/asset-receives/"+idreceive+"/detail";
+        final String IMAGE_URL = "https://devsteam.sitama.co.id/upload/asset-receive/";
         //creating a string request to send request to the url
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DETAIL,
                 new Response.Listener<String>() {
@@ -686,7 +686,7 @@ public class ApproveActivity extends AppCompatActivity {
                             appAssetCondition.setText(queArray.getString("asset_condition"));
                             linkKTP = queArray.getString("pic_delivery_photo_identity");
                             Log.e("image",IMAGE_URL+linkKTP);
-                            Picasso.get().load(IMAGE_URL+linkKTP).into(appKTP);
+                            Picasso.get().load(IMAGE_URL+linkKTP).resize(100,200).into(appKTP);
                             JSONArray camArray = new JSONArray(queArray.getString("images"));
                             JSONArray partsArray = new JSONArray(queArray.getString("parts"));
                             for (int i = 0; i < camArray.length(); i++) {
@@ -707,15 +707,15 @@ public class ApproveActivity extends AppCompatActivity {
                                 }
                             }
                             Log.e("foto1",linkFoto1);
-                            Picasso.get().load(IMAGE_URL+linkFoto1).into(appFoto1);
+                            Picasso.get().load(IMAGE_URL+linkFoto1).resize(150,250).into(appFoto1);
                             Log.e("foto2",linkFoto2);
-                            Picasso.get().load(IMAGE_URL+linkFoto2).into(appFoto2);
+                            Picasso.get().load(IMAGE_URL+linkFoto2).resize(150,250).into(appFoto2);
                             Log.e("foto3",linkFoto3);
-                            Picasso.get().load(IMAGE_URL+linkFoto3).into(appFoto3);
+                            Picasso.get().load(IMAGE_URL+linkFoto3).resize(150,250).into(appFoto3);
                             Log.e("foto4",linkFoto4);
-                            Picasso.get().load(IMAGE_URL+linkFoto4).into(appFoto4);
+                            Picasso.get().load(IMAGE_URL+linkFoto4).resize(150,250).into(appFoto4);
                             Log.e("foto5",linkFoto5);
-                            Picasso.get().load(IMAGE_URL+linkFoto5).into(appFoto5);
+                            Picasso.get().load(IMAGE_URL+linkFoto5).resize(150,250).into(appFoto5);
 
                             final LinearLayoutManager layoutManager = new LinearLayoutManager(ApproveActivity.this);
                             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -809,7 +809,7 @@ public class ApproveActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(ListApproveAdapter.ViewHolder holder, int position) {
-            holder.idQues.setText(dataList.get(position).getAsset_receive_id());
+            holder.idQues.setText(dataList.get(position).getPart_id());
             holder.textQues.setText(dataList.get(position).getPart_name());
             holder.txtPart.setText(dataList.get(position).getNotes());
             if(dataList.get(position).getValue().equals("1")){
@@ -949,7 +949,7 @@ public class ApproveActivity extends AppCompatActivity {
                         jsonChek.put(part);
                     }
 
-                    Log.e("dataapprove",imageKtp.toString());
+                    Log.e("dataapprove",jsonChek.toString());
 
                     sendApprove(idreceive,txtPICName,txtPICTitle,txtPICEmail,stnkExp,stnkTaxDate,kmCar,carCondition,imageKtp,jsonArray.toString(),jsonChek.toString());
                 }
@@ -1054,7 +1054,7 @@ public class ApproveActivity extends AppCompatActivity {
 
                             // Launch main activity
                             Intent intent = new Intent(ApproveActivity.this,
-                                    MainActivity.class);
+                                    NewMainActivity.class);
                             startActivity(intent);
                             finish();
 

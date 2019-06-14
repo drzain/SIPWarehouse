@@ -2,13 +2,14 @@ package com.sip.warehouse;
 
 public class DataGrading {
 
-    String company_id,warehouse_id,company_code,branch_name,kik,agreement_no,customer_name,asset_description,asset_type,manufacturing_year,license_plate,colour,serial_no_1,serial_no_2,repossession_date,days_overdue,last_installment_no,tenor,collector_name,first_unit_status,status_date,osprincipal,amount_to_be_paid,notes,inventory_date,inventory_amount,unit_status,asset_status,asset_doc_status,days_of_reposses,days_of_inventory,wh_received_date,days_of_wh_received,current_location,process_status;
+    String id,company_id,warehouse_id,company_code,branch_name,kik,agreement_no,customer_name,asset_description,asset_type,manufacturing_year,license_plate,colour,serial_no_1,serial_no_2,repossession_date,days_overdue,last_installment_no,tenor,collector_name,first_unit_status,status_date,osprincipal,amount_to_be_paid,notes,inventory_date,inventory_amount,unit_status,asset_status,asset_doc_status,days_of_reposses,days_of_inventory,wh_received_date,days_of_wh_received,current_location,process_status;
 
     public DataGrading(){
 
     }
 
-    public DataGrading(String company_id,String warehouse_id,String company_code,String branch_name,String kik,String agreement_no,String customer_name,String asset_description,String asset_type,String manufacturing_year,String license_plate,String colour,String serial_no_1,String serial_no_2,String repossession_date,String days_overdue,String last_installment_no,String tenor,String collector_name,String first_unit_status,String status_date,String osprincipal,String amount_to_be_paid,String notes,String inventory_date,String inventory_amount,String unit_status,String asset_status,String asset_doc_status,String days_of_reposses,String days_of_inventory,String wh_received_date,String days_of_wh_received,String current_location,String process_status){
+    public DataGrading(String id,String company_id,String warehouse_id,String company_code,String branch_name,String kik,String agreement_no,String customer_name,String asset_description,String asset_type,String manufacturing_year,String license_plate,String colour,String serial_no_1,String serial_no_2,String repossession_date,String days_overdue,String last_installment_no,String tenor,String collector_name,String first_unit_status,String status_date,String osprincipal,String amount_to_be_paid,String notes,String inventory_date,String inventory_amount,String unit_status,String asset_status,String asset_doc_status,String days_of_reposses,String days_of_inventory,String wh_received_date,String days_of_wh_received,String current_location,String process_status){
+        this.id = id;
         this.company_id = company_id;
         this.warehouse_id = warehouse_id;
         this.company_code = company_code;
@@ -45,6 +46,14 @@ public class DataGrading {
         this.current_location = current_location;
         this.process_status = process_status;
 
+    }
+
+    public String getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
     }
 
     public String getCompany_id() {

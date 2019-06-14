@@ -4,6 +4,20 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/idGrading"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/persenGrading"
+        android:visibility="gone"
+        />
+
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -11,29 +25,18 @@
         android:rowCount="1">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/idGrading"
-            android:layout_column="0"
-            android:layout_row="0"
-            android:visibility="gone"
-            />
-
-        <TextView
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:minWidth="105dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/gradingPart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
             android:layout_columnWeight="1"
             android:layout_gravity="fill_horizontal"
-            android:layout_column="0"
-            android:layout_row="0"
-            />
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp" />
 
         <Spinner
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:gravity="fill_horizontal"

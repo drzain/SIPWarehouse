@@ -65,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
+    String is_grading, state_grading;
+    String is_receive, state_receive;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +84,22 @@ public class LoginActivity extends AppCompatActivity {
         // SQLite database handler
         db = new SQLiteHandler(getApplicationContext());
 
+        HashMap<String,String> grading = db.getGradingDetails();
+        is_grading = grading.get("is_grading");
+        if(is_grading == null || is_grading.isEmpty() || is_grading.equals("null")){
+            state_grading = "N";
+        }else{
+            state_grading = is_grading;
+        }
+
+        HashMap<String,String> receive = db.getReceiveDetails();
+        is_receive = receive.get("is_receive");
+        if(is_receive == null || is_receive.isEmpty() || is_receive.equals("null")){
+            state_receive = "N";
+        }else{
+            state_receive = is_receive;
+        }
+
         // Session manager
         session = new SessionManager(getApplicationContext());
         // Check if user is already logged in or not
@@ -89,9 +107,19 @@ public class LoginActivity extends AppCompatActivity {
 
             if(session.isUser().equals("5")) {
                 // User is already logged in. Take him to main activity
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                if(state_grading.equals("Y")){
+                    Intent intent = new Intent(LoginActivity.this, SelfGradingActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else if(state_receive.equals("Y")){
+                    Intent intent = new Intent(LoginActivity.this, ReceiveActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }else if(session.isUser().equals("4")){
                 Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
                 startActivity(intent);

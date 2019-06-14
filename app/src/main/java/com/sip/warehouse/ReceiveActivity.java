@@ -24,12 +24,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +43,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.crashlytics.android.Crashlytics;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -63,6 +66,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import io.fabric.sdk.android.Fabric;
 
 import static com.sip.warehouse.CameraUtils.getOutputMediaFile;
 
@@ -90,19 +95,24 @@ public class ReceiveActivity extends AppCompatActivity {
     private Button btnSimpan;
     private Button btnCancel;
     private ImageButton btnKtp;
+    private Spinner stnk_status, stnk_pemilik;
     DatePickerDialog datePickerDialog;
-    String token, idwarehouse, txtPICName, txtPICTitle, txtPICEmail, stnkExp, stnkTaxDate, kmCar, carCondition, typeKendaraan;
+    String token, idwarehouse, txtPICName, txtPICTitle, txtPICEmail, stnkExp, stnkTaxDate, kmCar, carCondition, typeKendaraan, isStnk, stnkOwn;
     EditText txtName,txtTitle,txtEmail, stnkDate, stnktax, km, assetcondition;
     String encodedImageKtp, encodedImageF1,encodedImageF2,encodedImageF3,encodedImageF4,encodedImageF5;
     String fixencodedImageKtp, fixencodedImageF1,fixencodedImageF2,fixencodedImageF3,fixencodedImageF4,fixencodedImageF5;
+    TextView txtPemilik, txtStnkExp, txtStnkTax;
     Intent intent;
     Uri fileUri;
     Bitmap bitmap, decoded;
+    JSONArray jsonArray, jsonChek;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receive);
+
+        Fabric.with(this, new Crashlytics());
 
         listViewPart = (RecyclerView) findViewById(R.id.part_new_receive);
         txtCustomer = (TextView) findViewById(R.id.customerNewName);
@@ -128,11 +138,43 @@ public class ReceiveActivity extends AppCompatActivity {
         txtEmail = (EditText) findViewById(R.id.txtNewEmail);
         stnkDate = (EditText) findViewById(R.id.stnkExpDate);
         stnktax = (EditText) findViewById(R.id.stnkTaxDate);
+        stnk_status = (Spinner) findViewById(R.id.spinner_stnk);
+        stnk_pemilik = (Spinner) findViewById(R.id.spinner_pemilik);
+        txtPemilik = (TextView) findViewById(R.id.txtPemilik);
+        txtStnkExp = (TextView) findViewById(R.id.txtstnkexp);
+        txtStnkTax = (TextView) findViewById(R.id.txtstnktax);
         km = (EditText) findViewById(R.id.km);
         assetcondition = (EditText) findViewById(R.id.assetCondition);
 
         listViewPart.setNestedScrollingEnabled(false);
         listViewPart.setLayoutFrozen(true);
+
+        stnk_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String status = stnk_status.getSelectedItem().toString();
+                if(status.equals("ADA")){
+                    stnk_pemilik.setVisibility(View.VISIBLE);
+                    stnkDate.setVisibility(View.VISIBLE);
+                    stnktax.setVisibility(View.VISIBLE);
+                    txtPemilik.setVisibility(View.VISIBLE);
+                    txtStnkExp.setVisibility(View.VISIBLE);
+                    txtStnkTax.setVisibility(View.VISIBLE);
+                }else{
+                    stnk_pemilik.setVisibility(View.GONE);
+                    stnkDate.setVisibility(View.GONE);
+                    stnktax.setVisibility(View.GONE);
+                    txtPemilik.setVisibility(View.GONE);
+                    txtStnkExp.setVisibility(View.GONE);
+                    txtStnkTax.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         stnkDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,18 +263,29 @@ public class ReceiveActivity extends AppCompatActivity {
         String name = user.get("name");
         token = user.get("token");
 
+        HashMap<String,String> receive = db.getReceiveDetails();
+        String db_id = receive.get("id_warehouse");
+        String db_name = receive.get("customer_name");
+        String db_code = receive.get("code");
+        String db_plat = receive.get("receive_plat");
+        String db_desc = receive.get("receive_desc");
+        String db_year = receive.get("year");
+        String db_type = receive.get("receive_type");
+
+        Log.e("receive",db_type+","+db_id);
+
         Intent intent=getIntent();
         String customerName = intent.getStringExtra("name");
         String code = intent.getStringExtra("code");
         String platNumber = intent.getStringExtra("plat");
         String description = intent.getStringExtra("desc");
         String year = intent.getStringExtra("year");
-        idwarehouse = intent.getStringExtra("idwarehouse");
-        typeKendaraan = intent.getStringExtra("asset_type");
+        idwarehouse = db_id;
+        typeKendaraan = db_type;
 
-        txtCustomer.setText(customerName+" - "+code);
-        txtPlat.setText(platNumber);
-        txtMobil.setText(description+" - "+year);
+        txtCustomer.setText(db_name+" - "+db_code);
+        txtPlat.setText(db_plat);
+        txtMobil.setText(db_desc+" - "+db_year);
 
 
         loadQuestionList();
@@ -363,7 +416,7 @@ public class ReceiveActivity extends AppCompatActivity {
 
                 // successfully captured the image
                 // display it in image view
-                previewCapturedImage(getResizedBitmap(bitmap, max_resolution_image),requestCode);
+                previewCapturedImage(bitmap,getResizedBitmap(bitmap, max_resolution_image),requestCode);
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture
                 Toast.makeText(getApplicationContext(),
@@ -384,7 +437,7 @@ public class ReceiveActivity extends AppCompatActivity {
 
                 // successfully captured the image
                 // display it in image view
-                previewCapturedImage(getResizedBitmap(bitmap, max_resolution_image),requestCode);
+                previewCapturedImage(bitmap,getResizedBitmap(bitmap, max_resolution_image),requestCode);
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture
                 Toast.makeText(getApplicationContext(),
@@ -405,7 +458,7 @@ public class ReceiveActivity extends AppCompatActivity {
 
                 // successfully captured the image
                 // display it in image view
-                previewCapturedImage(getResizedBitmap(bitmap, max_resolution_image),requestCode);
+                previewCapturedImage(bitmap,getResizedBitmap(bitmap, max_resolution_image),requestCode);
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture
                 Toast.makeText(getApplicationContext(),
@@ -426,7 +479,7 @@ public class ReceiveActivity extends AppCompatActivity {
 
                 // successfully captured the image
                 // display it in image view
-                previewCapturedImage(getResizedBitmap(bitmap, max_resolution_image),requestCode);
+                previewCapturedImage(bitmap,getResizedBitmap(bitmap, max_resolution_image),requestCode);
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture
                 Toast.makeText(getApplicationContext(),
@@ -447,7 +500,7 @@ public class ReceiveActivity extends AppCompatActivity {
 
                 // successfully captured the image
                 // display it in image view
-                previewCapturedImage(getResizedBitmap(bitmap, max_resolution_image),requestCode);
+                previewCapturedImage(bitmap,getResizedBitmap(bitmap, max_resolution_image),requestCode);
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture
                 Toast.makeText(getApplicationContext(),
@@ -468,7 +521,7 @@ public class ReceiveActivity extends AppCompatActivity {
 
                 // successfully captured the image
                 // display it in image view
-                previewCapturedImage(getResizedBitmap(bitmap, max_resolution_image),requestCode);
+                previewCapturedImage(bitmap,getResizedBitmap(bitmap, max_resolution_image),requestCode);
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture
                 Toast.makeText(getApplicationContext(),
@@ -501,71 +554,101 @@ public class ReceiveActivity extends AppCompatActivity {
     /**
      * Display image from gallery
      */
-    private void previewCapturedImage(Bitmap bmp,int tipe) {
+    private void previewCapturedImage(Bitmap bitmap, Bitmap bmp,int tipe) {
         try {
 
             if(tipe == CAMERA_KTP){
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,50, baos);
+                byte[] b = baos.toByteArray();
+                encodedImageKtp = Base64.encodeToString(b,Base64.DEFAULT);
+
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, bytes);
                 decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
 
-                byte[] byteArray = bytes.toByteArray();
-                encodedImageKtp = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                //byte[] byteArray = bytes.toByteArray();
+                //encodedImageKtp = Base64.encodeToString(byteArray, Base64.DEFAULT);
                 fixencodedImageKtp = "data:image/jpeg;base64," + encodedImageKtp.replace(" ", "").replace("\n", "");
 
                 viewKtp.setVisibility(View.VISIBLE);
                 viewKtp.setImageBitmap(decoded);
             }else if(tipe == CAMERA_SATU){
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,50, baos);
+                byte[] b = baos.toByteArray();
+                encodedImageF1 = Base64.encodeToString(b,Base64.DEFAULT);
+
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, bytes);
                 decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
 
-                byte[] byteArray = bytes.toByteArray();
-                encodedImageF1 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                //byte[] byteArray = bytes.toByteArray();
+                //encodedImageF1 = Base64.encodeToString(byteArray, Base64.DEFAULT);
                 fixencodedImageF1 = "data:image/jpeg;base64," + encodedImageF1.replace(" ", "").replace("\n", "");
 
                 viewFoto1.setVisibility(View.VISIBLE);
                 viewFoto1.setImageBitmap(decoded);
             }else if(tipe == CAMERA_DUA){
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,50, baos);
+                byte[] b = baos.toByteArray();
+                encodedImageF2 = Base64.encodeToString(b,Base64.DEFAULT);
+
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, bytes);
                 decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
 
-                byte[] byteArray = bytes.toByteArray();
-                encodedImageF2 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                //byte[] byteArray = bytes.toByteArray();
+                //encodedImageF2 = Base64.encodeToString(byteArray, Base64.DEFAULT);
                 fixencodedImageF2 = "data:image/jpeg;base64," + encodedImageF2.replace(" ", "").replace("\n", "");
 
                 viewFoto2.setVisibility(View.VISIBLE);
                 viewFoto2.setImageBitmap(decoded);
             }else if(tipe == CAMERA_TIGA){
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,50, baos);
+                byte[] b = baos.toByteArray();
+                encodedImageF3 = Base64.encodeToString(b,Base64.DEFAULT);
+
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, bytes);
                 decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
 
-                byte[] byteArray = bytes.toByteArray();
-                encodedImageF3 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                //byte[] byteArray = bytes.toByteArray();
+                //encodedImageF3 = Base64.encodeToString(byteArray, Base64.DEFAULT);
                 fixencodedImageF3 = "data:image/jpeg;base64," + encodedImageF3.replace(" ", "").replace("\n", "");
 
                 viewFoto3.setVisibility(View.VISIBLE);
                 viewFoto3.setImageBitmap(decoded);
             }else if(tipe == CAMERA_EMPAT){
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,50, baos);
+                byte[] b = baos.toByteArray();
+                encodedImageF4 = Base64.encodeToString(b,Base64.DEFAULT);
+
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, bytes);
                 decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
 
-                byte[] byteArray = bytes.toByteArray();
-                encodedImageF4 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                //byte[] byteArray = bytes.toByteArray();
+                //encodedImageF4 = Base64.encodeToString(byteArray, Base64.DEFAULT);
                 fixencodedImageF4 = "data:image/jpeg;base64," + encodedImageF4.replace(" ", "").replace("\n", "");
 
                 viewFoto4.setVisibility(View.VISIBLE);
                 viewFoto4.setImageBitmap(decoded);
             }else if(tipe == CAMERA_LIMA){
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,50, baos);
+                byte[] b = baos.toByteArray();
+                encodedImageF5 = Base64.encodeToString(b,Base64.DEFAULT);
+
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, bytes);
                 decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
 
-                byte[] byteArray = bytes.toByteArray();
-                encodedImageF5 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                //byte[] byteArray = bytes.toByteArray();
+                //encodedImageF5 = Base64.encodeToString(byteArray, Base64.DEFAULT);
                 fixencodedImageF5 = "data:image/jpeg;base64," + encodedImageF5.replace(" ", "").replace("\n", "");
 
                 viewFoto5.setVisibility(View.VISIBLE);
@@ -652,6 +735,7 @@ public class ReceiveActivity extends AppCompatActivity {
                     // Check for error node in json
                     if (error != "1") {
                         // Launch main activity
+                        db.deleteReceive();
                         Intent intent = new Intent(ReceiveActivity.this,
                                 MainActivity.class);
                         startActivity(intent);
@@ -708,7 +792,7 @@ public class ReceiveActivity extends AppCompatActivity {
     public void loadQuestionList(){
 
         //creating a string request to send request to the url
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.URL_QUESTION_RECEIVE+"?asset_type="+typeKendaraan+"&inspection_code=ASRCV",
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.URL_QUESTION_RECEIVE+"?asset_type="+typeKendaraan+"&inspection_name=Asset Receive",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -853,7 +937,7 @@ public class ReceiveActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    JSONArray jsonArray = new JSONArray();
+                    jsonArray = new JSONArray();
 
                     jsonArray.put(foto1);
                     jsonArray.put(foto2);
@@ -869,7 +953,7 @@ public class ReceiveActivity extends AppCompatActivity {
                     }
 
                     Log.e("datafoto",jsonArray.toString());
-                    JSONArray jsonChek = new JSONArray();
+                    jsonChek = new JSONArray();
                     ArrayList<String> list = new ArrayList<String>();
                     txtPICName =  txtName.getText().toString();
                     txtPICTitle = txtTitle.getText().toString();
@@ -878,6 +962,19 @@ public class ReceiveActivity extends AppCompatActivity {
                     stnkTaxDate = stnktax.getText().toString();
                     kmCar = km.getText().toString();
                     carCondition = assetcondition.getText().toString();
+
+                    isStnk = stnk_status.getSelectedItem().toString();
+                    if(isStnk.equals("ADA")){
+                        isStnk = "1";
+                    }else{
+                        isStnk = "0";
+                    }
+                    stnkOwn = stnk_pemilik.getSelectedItem().toString();
+                    if(stnkOwn.equals("Individu")){
+                        stnkOwn = "1";
+                    }else{
+                        stnkOwn = "2";
+                    }
 
                     for (int i = 0; i < dataList.size(); i++){
                         View view = listViewPart.getChildAt(i);
@@ -923,7 +1020,26 @@ public class ReceiveActivity extends AppCompatActivity {
 
                     Log.e("datatext",jsonChek.toString());
 
-                   sendChecklist(idwarehouse,stnkExp,stnkTaxDate,kmCar,carCondition,fixencodedImageKtp,txtPICName,txtPICTitle,txtPICEmail,jsonChek.toString(),jsonArray.toString());
+
+                    new AlertDialog.Builder(ReceiveActivity.this)
+                        .setTitle("Submit entry")
+                        .setMessage("Are you sure you want to submit this entry?")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Continue with delete operation
+                                sendChecklist(idwarehouse,stnkExp,stnkTaxDate,kmCar,carCondition,fixencodedImageKtp,txtPICName,txtPICTitle,txtPICEmail,jsonChek.toString(),jsonArray.toString(),isStnk,stnkOwn);
+
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
                 }
             });
 
@@ -941,7 +1057,7 @@ public class ReceiveActivity extends AppCompatActivity {
     private void sendChecklist(final String idwarehouse,final String stnkExp,final String stnkTaxDate,
                                final String kmCar,final String carCondition, final String encodedImageKtp,
                                final String txtPICName, final String txtPICTitle, final String txtPICEmail,
-                               final String jsonChek, final String jsonArray){
+                               final String jsonChek, final String jsonArray, final String isStnk, final String stnkOwn){
 
         String tag_string_req = "req_senddata";
 
@@ -951,6 +1067,16 @@ public class ReceiveActivity extends AppCompatActivity {
         JSONObject postparams = new JSONObject();
         try {
             postparams.put("warehouse_order_id", idwarehouse);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            postparams.put("is_stnk", isStnk);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            postparams.put("stnk_status", stnkOwn);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1029,6 +1155,7 @@ public class ReceiveActivity extends AppCompatActivity {
                                 errorMsg, Toast.LENGTH_LONG).show();
 
                         // Launch main activity
+                        db.deleteReceive();
                         Intent intent = new Intent(ReceiveActivity.this,
                                 MainActivity.class);
                         startActivity(intent);

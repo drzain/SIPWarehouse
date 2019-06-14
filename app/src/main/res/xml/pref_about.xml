@@ -4,7 +4,7 @@
     <Preference
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Application Name "
+        android:title="SIP Warehouse "
         android:key="example_about"
         android:summary="SIP Warehouse"
         android:enabled="true" />
@@ -22,7 +22,7 @@
         android:singleLine="true"
         android:title="Build "
         android:key="example_build"
-        android:summary="22"
+        android:summary="35"
         android:enabled="true" />
 
 

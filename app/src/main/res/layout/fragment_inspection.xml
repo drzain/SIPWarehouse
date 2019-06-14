@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_m3"
     android:orientation="vertical"
     android:layout_marginBottom="70dp">
 
@@ -12,7 +11,8 @@
         android:orientation="vertical"
         android:padding="14dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent">
         <TextView
             android:id="@+id/txtWelcome2"
             android:layout_marginTop="8dp"
@@ -38,7 +38,7 @@
         android:id="@+id/searchApproval"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:focusable="true"
         android:hint="Search"

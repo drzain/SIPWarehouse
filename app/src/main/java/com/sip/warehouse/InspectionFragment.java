@@ -110,7 +110,11 @@ public class InspectionFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 String text = searchApproval.getText().toString().toLowerCase(Locale.getDefault());
-                mListadapter.filter(text);
+                try {
+                    mListadapter.filter(text);
+                }catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 

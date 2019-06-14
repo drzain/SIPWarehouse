@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment {
     private TextView jmlInspection;
     private RecyclerView mRecyclerView;
     private ListAdapter mListadapter;
+    private SessionManager session;
     EditText searchHome;
     String token;
     String jml_data;
@@ -73,6 +74,16 @@ public class HomeFragment extends Fragment {
         HashMap<String, String> user = db.getUserDetails();
         String name = user.get("name");
         token = user.get("token");
+
+        // Session manager
+        session = new SessionManager(getActivity().getApplicationContext());
+        // Check if user is already logged in or not
+        if (!session.isLoggedIn()) {
+            // User is already logged in. Take him to main activity
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
 
         welcome = (TextView) view.findViewById(R.id.txtWelcome);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -121,7 +132,11 @@ public class HomeFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 if(editable.toString().trim().length()>0) {
                     String text = searchHome.getText().toString().toLowerCase(Locale.getDefault());
-                    mListadapter.filter(text);
+                    try {
+                        mListadapter.filter(text);
+                    }catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         });
@@ -261,7 +276,31 @@ public class HomeFragment extends Fragment {
                 public void onClick(View v)
                 {
                     //Toast.makeText(getActivity(), "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
-                    setFlagging(filterlist.get(position).getWarehouse_order_id());
+                    cekValidate(filterlist.get(position).getWarehouse_order_id(),new VolleyCallback(){
+                        @Override
+                        public void onSuccess(String result){
+                            //Toast.makeText(getActivity(), "validate " + result, Toast.LENGTH_SHORT).show();
+
+                            if(result.equals("1")){
+                                setFlagging(filterlist.get(position).getWarehouse_order_id());
+                                db.addReceive(filterlist.get(position).getWarehouse_order_id(),filterlist.get(position).getCustomer_name(),filterlist.get(position).getAgreement_no(),filterlist.get(position).getLicense_plate(),filterlist.get(position).getAsset_description(),filterlist.get(position).getManufacturing_year(),filterlist.get(position).asset_type,"Y");
+                                Intent intent = new Intent(getActivity(),
+                                        ReceiveActivity.class);
+                                intent.putExtra("name",filterlist.get(position).getCustomer_name());
+                                intent.putExtra("code",filterlist.get(position).getAgreement_no());
+                                intent.putExtra("plat",filterlist.get(position).getLicense_plate());
+                                intent.putExtra("desc",filterlist.get(position).getAsset_description());
+                                intent.putExtra("year",filterlist.get(position).getManufacturing_year());
+                                intent.putExtra("asset_type",filterlist.get(position).getAsset_type());
+                                intent.putExtra("idwarehouse",filterlist.get(position).getWarehouse_order_id());
+                                startActivity(intent);
+                            }else{
+                                Toast.makeText(getActivity(), "maaf, data sedang di ceklis, silahkan coba data yang lain", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+                    /*setFlagging(filterlist.get(position).getWarehouse_order_id());
                     Intent intent = new Intent(getActivity(),
                             ReceiveActivity.class);
                     intent.putExtra("name",filterlist.get(position).getCustomer_name());
@@ -271,7 +310,7 @@ public class HomeFragment extends Fragment {
                     intent.putExtra("year",filterlist.get(position).getManufacturing_year());
                     intent.putExtra("asset_type",filterlist.get(position).getAsset_type());
                     intent.putExtra("idwarehouse",filterlist.get(position).getWarehouse_order_id());
-                    startActivity(intent);
+                    startActivity(intent);*/
                 }
             });
         }
@@ -279,22 +318,22 @@ public class HomeFragment extends Fragment {
         @Override
         public int getItemCount()
         {
-            return filterlist.size();
+            if(filterlist != null){
+                return filterlist.size();
+            }
+            return 0;
         }
 
         public void filter(String charText) {
             charText = charText.toLowerCase(Locale.getDefault());
+            //Log.e("filterlist ",filterlist.toString());
             filterlist.clear();
             if (charText.length() == 0) {
                 filterlist.addAll(dataList);
-            }
-            else
-            {
-                for (DataAssetReceive wp : dataList)
-                {
-                    if (wp.getCustomer_name().toLowerCase().contains(charText.toLowerCase())||wp.getAgreement_no().toLowerCase().contains(charText.toLowerCase())
-                        ||wp.getAsset_description().toLowerCase().contains(charText.toLowerCase())||wp.getLicense_plate().toLowerCase().contains(charText.toLowerCase()))
-                    {
+            } else {
+                for (DataAssetReceive wp : dataList) {
+                    if (wp.getCustomer_name().toLowerCase().contains(charText.toLowerCase()) || wp.getAgreement_no().toLowerCase().contains(charText.toLowerCase())
+                            || wp.getAsset_description().toLowerCase().contains(charText.toLowerCase()) || wp.getLicense_plate().toLowerCase().contains(charText.toLowerCase())) {
                         //Toast.makeText(getActivity(), "data " + wp.getCustomer() , Toast.LENGTH_SHORT).show();
                         filterlist.add(wp);
                     }
@@ -302,6 +341,55 @@ public class HomeFragment extends Fragment {
             }
             notifyDataSetChanged();
         }
+
+    }
+
+    private void cekValidate(final String idwarehouse,final VolleyCallback callback){
+
+        String tag_string_req = "req_flagging";
+
+        StringRequest strReq = new StringRequest(Request.Method.GET,
+                AppConfig.URL_VALIDATE_CEKLIS+"?warehouse_order_id="+idwarehouse, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "Flaging Response: " + response.toString());
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    Log.d(TAG, "obj: " + jObj.toString());
+                    String error = jObj.getString("status");
+                    callback.onSuccess(error);
+                    Log.d(TAG, "obj: " + error);
+                    // Check for error node in json
+                } catch (JSONException e) {
+                    // JSON error
+                    e.printStackTrace();
+                    Toast.makeText(getActivity().getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Validate Error: " + error.getMessage());
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Validate Failed", Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer "+token);
+                headers.put("Content_Type", "application/json");
+                return headers;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
     }
 
@@ -359,6 +447,10 @@ public class HomeFragment extends Fragment {
         };
 
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    public interface VolleyCallback{
+        void onSuccess(String result);
     }
 
 }
